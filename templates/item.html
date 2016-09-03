@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block navbar %}
+	<div id = "navbar">
+	<a href = '{% url 'home' %}'>Home</a>
+{% endblock %}
+
+{% block content %}
+<!-- <h1>
+	{{ queryset.name }}
+</h1>
+<p> {{ queryset.description }}</p> -->
+
+<div id = 'mountNode'></div>
+
+<script type="text/babel">
+	var js_url = 'http://127.0.0.1:8000/api/'.concat('{{ todo_id }}');
+
+	var ItemComponent = React.createClass({
+	getInitialState: function(){
+		console.log("got initial state");
+		return {
+			name : '',
+			description: '',
+			created: '',
+		};
+	},
+	componentDidMount: function(){		
+		this.serverRequest = $.get(this.props.source, 
+			function(result){
+				var item = result;
+				this.setState({
+					name: item.name,
+					description: item.description,
+					created: item.created,
+				});
+		}.bind(this)
+		);
+	},
+	componentWillUnmount: function(){
+		this.serverRequest.abort();
+	},
+	render: function(){
+		return(
+			<div>
+			<h1>{this.state.name}</h1>
+			<p>Desciption : {this.state.description}</p>
+			<p>Created : {this.state.created}</p>
+			</div>
+		)
+	}
+});
+
+ReactDOM.render(
+	<ItemComponent source={js_url} />,
+	document.getElementById('mountNode')
+);
+
+</script>
+
+{% endblock %}

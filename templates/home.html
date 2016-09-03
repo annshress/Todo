@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load staticfiles %}
+
+{% block title%} {{ title }}{% endblock %}
+
+{% block navbar %}
+<ul class="nav navbar-nav">
+	<li><a href = '{% url 'delete' %}'>Delete</a></li>
+	<li><a href = '{% url 'mark' %}'>Mark</a></li>
+</ul>
+{% endblock %}
+
+{% block content %}
+<div class='container'>
+
+<div class = "row">
+	<div class="col-xs-3">
+			<input type="text" class="form-control" placeholder="Search" onChange="alert('upcoming enhancement -> filter the todo-list')"/>
+	</div>
+</div>
+
+<table class="table">
+	<tr>
+	<th>Id.  Name</th>
+	<th>Created</th>
+	<th>Completed</th>
+	</tr>
+{% for query in queryset%}
+	<tr>
+	<a href='#'>
+		<td>{{ query.id }}. {{ query.name }}</td>
+	</a>
+	<td>{{ query.created|timesince }}</td>
+	<form method = 'POST' action = ''> 
+		{% csrf_token %}
+		<!-- useless form  -->
+		{% if query.completed %}
+			<td>&#10004;</td>
+		{% else %}
+			<td>
+			<form id="mark_form" method="POST" action=".">
+		        <!-- <a href="#" >Mark</a> -->
+		        <input class="butt-on" type="submit" value="Mark" onclick="alert('this does not work atm.')" />
+		        <!-- onclick="document.forms['mark_form'].submit();" -->
+		    </form>
+			<!-- <input type = "radio" name = "mark"><label> Yes </label></td> -->
+			<!-- <input type = 'submit' value = 'Mark &raquo;' /> -->
+		{% endif %}
+	</form>
+	</tr>
+{% endfor %}
+</table>
+
+<form method = 'POST' action = ''>
+	{% csrf_token%}
+	{{ form|crispy }}
+
+	<input class="btn btn-lg btn-default" type = 'submit' value = 'Add &raquo;' />
+</form>
+
+</div>
+
+<div id = 'mount-point'></div>
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block navbar %}
+<a href = '{% url 'home' %}'>Home</a>
+{% endblock %}
+
+{% block content %}
+{% for query in queryset%}
+	<p>{{ query.id }}. <strong>{{ query.name }}</strong></p>
+{% endfor %}
+
+<form method = 'POST' action = ''>
+	{% csrf_token%}
+
+	<div class="col-lg-6">
+	    <div class="input-group">
+	      <span class="input-group-btn">
+	        <button class="btn btn-default" type="submit">Delete</button>
+	      </span>
+	     	<input type="text" class="form-control" placeholder="ID" name='id'>
+	    </div><!-- /input-group -->
+	</div><!-- /.col-lg-6 -->
+</form>
+
+{% endblock %}
+
+{% block notice %}
+{{ notice }}
+{% endblock %}

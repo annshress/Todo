@@ -1,0 +1,26 @@
+<!DOCTYPE html>  
+<html lang="en">  
+  <head>
+    <meta charset="utf-8">
+    <title>ToDo | {% block title %}{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <h1>T0-D0s</h1>
+
+    {% include 'inc-js_css.html' %}
+  </head>
+  
+  <body>
+    <div class='navbar'>
+    {% block navbar %}{% endblock %}
+    </div>
+
+    {% block content %}{% endblock %}
+
+    <div class='error-block'>
+    {% block notice %}{% endblock %}
+    </div>
+
+    </script>
+  </body>
+</html>
