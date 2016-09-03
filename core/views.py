@@ -58,14 +58,11 @@ def delete(request):
 	try:
 		del_id = int(request.POST.get('id'))
 
-		if 0 >= del_id or del_id > Todo.objects.all().order_by('created')[len(Todo.objects.all())-1].id:
+		try:
+			Todo.objects.get(id = del_id).delete()
+			notice = "Successfully deleted."
+		except:
 			notice = "id not found."
-		else:
-			try:
-				Todo.objects.get(id = del_id).delete()
-				notice = "Successfully deleted."
-			except:
-				notice = "id not found."
 	except TypeError:
 		pass	
 
